@@ -37,7 +37,7 @@ var signupErrors={
 var Users = [];
 app.get('/',function(req,res){
 	if(req.cookies['hrmuser']==undefined || req.cookies['hrmuser']=='' || req.cookies['hrmuser']==null){
-		res.sendFile(__dirname+'/views/login.html');
+		res.render('login');
 	}
 	else{
 		res.render('Home');
