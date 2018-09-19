@@ -6,7 +6,7 @@ var bodyParser=require('body-parser');
 app.use(express.static('static'));
 app.engine('.html', require('ejs').__express);
 app.set('port', process.env.PORT || 1345);
-var server = app.listen(app.get("port"));
+
 // providing directory detail so it can use files under this directory
 app.set('views', __dirname + '/views');
 app.set('view engine', 'html');
@@ -187,3 +187,4 @@ app.get('/logout',function(req,res){
 		res.render('login');
     }
 });
+var server = app.listen(app.get("port"));
