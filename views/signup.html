@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!------ Include the above in your HEAD tag ---------->
+<style>
+  
+
+
+ .card {
+    background-color: #ffffff;
+    /* just in case there no content*/
+    padding: 20px 25px 30px;
+    margin: 0 auto 25px;
+    margin-top: 50%;
+    /* shadows and rounded borders */
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+
+    width:80%;
+    
+    margin-top: 7%;
+
+
+}
+
+
+</style>
+<script>
+$(document).ready(function(){
+  $('#submit').click(function(){
+    if(!($('#fname').val()=='')){
+      $('#fnameError').text('');
+      if(!($('#lname').val()=='')){
+        $('#lnameError').text('');
+        if(!($('#password').val()=='')){
+          $('#pwdError').text('');
+          if(!($('#cpassword').val()=='') && $('#cpassword').val()==$('#password').val()){
+            $('#repwdError').text('');
+            if(!($('#dob').val()=='')){
+              $('#dobError').text('');
+              if(!($('#emailid').val()=='')){
+                $('#emailError').text('');
+                if(!($('#contactnum').val()=='')){
+                  $('#phnError').text('');
+                  if($('#agree').prop('checked')==true){
+                    $.ajax({
+                      type: 'POST',
+                      url : '/signup',
+                      data : {
+                        fname : $('#fname').val(),
+                        mname : $('#mname').val(),
+                        lname : $('#lname').val(),
+                        password : $('#password').val(),
+                        cpassword : $('#cpassword').val(),
+                        dob : $('#dob').val(),
+                        gender : $("input[name='gender']:checked").val(),
+                        mail : $('#emailid').val(),
+                        phn  : $('#contactnum').val()
+                      },
+                      success : function(data){
+                        if(data.message==''){
+                        $('#fnameError').text(data.fnameError);
+                        $('#mnameError').text(data.mnameError);
+                        $('#lnameError').text(data.lnameError);
+                        $('#pwdError').html(data.pwdError);
+                        $('#dobError').text(data.dobError);
+                        $('#emailError').text(data.emailError);
+                        $('#phnError').text(data.phnError);
+                        }
+                        else{
+                          alert(data.message);
+                          $(location).attr('href','/');
+                        }
+                      }
+                    });
+                    
+                    
+                  }
+                  else{
+                    alert('Please Check the Checkbox in order to submit the Page');
+                    
+                  }
+                }
+                else{
+                  $('#phnError').text('*Please enter value');
+                }
+              }
+              else{
+                $('#emailError').text('*Please enter value');
+              }
+            }
+            else{
+              $('#dobError').text('*Please enter value');
+            }
+          }
+          else{
+            $('#repwdError').text('Passwords Does not match');
+          }
+
+        }
+        else{
+          $('#pwdError').text('*Please enter value');
+        }
+
+      }
+      else{
+        $('#lnameError').text('*Please enter value');
+      }
+
+    }
+    else{
+      $('#fnameError').text('*Please enter value');
+    }
+
+  });
+});
+</script>
+</head>
+<body style="background-color:rgb(255, 224, 204)">
+
+<div class="container">
+  <div class="card">
+	<div class="row">
+    <div class="col-xs-12">
+      <section>      
+        <h1><span>Registration Form</span> </h1>
+            <form class="form-horizontal" id="signup"> 
+              <div class="form-group">
+          <label class="control-label col-sm-3">First Name<span class="text-danger">*</span></label>
+          <div class="col-md-5 col-sm-8">
+            <div class="input-group">
+             
+            <input type="text" class="form-control" name="fname" id="fname"  />
+            <span id="fnameError" style="color:red"></span>
+            </div>
+            
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Middle Name</label>
+          <div class="col-md-5 col-sm-8">
+            <div class="input-group">
+             
+            <input type="text" class="form-control" name="mname" id="mname" />
+            </div>
+            <span id="mnameError" style="color:red"></span>
+            
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Last Name<span class="text-danger">*</span></label>
+          <div class="col-md-5 col-sm-8">
+            <div class="input-group">
+             
+            <input type="text" class="form-control" name="lname" id="lname"  />
+             <span id="lnameError" style="color:red"></span>
+            </div>
+          </div>
+        </div>
+           
+        <div class="form-group">
+          <label class="control-label col-sm-3">Set Password <span class="text-danger">*</span></label>
+          <div class="col-md-5 col-sm-8">
+            <div class="input-group col-xs-8">
+              <input type="password" class="form-control"  id="password" placeholder="Enter password (5-15 chars)" >
+               <span id="pwdError" style="color:red"></span>
+           </div>   
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Confirm Password <span class="text-danger">*</span></label>
+          <div class="col-md-5 col-sm-8">
+            <div class="input-group col-xs-8">
+              <input type="password" class="form-control" name="pwd" id="cpassword" placeholder="Confirm your password">
+               <span id="repwdError" style="color:red"></span>
+            </div>  
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Date of Birth<span class="text-danger">*</span></label>
+          <div class="col-md-5 col-sm-8">
+            <div class="input-group col-xs-4">
+              <input type="date" class="form-control" name="dob" id="dob">
+               <span id="dobError" style="color:red"></span>
+            </div>  
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Gender <span class="text-danger">*</span></label>
+          <div class="col-md-8 col-sm-9">
+            <label>
+            <input name="gender"  type="radio" value="Male" checked>
+            Male </label>
+               
+            <label>
+            <input name="gender"  type="radio" value="Female" >
+            Female </label>
+
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Email ID <span class="text-danger">*</span></label>
+          <div class="col-md-8 col-sm-9">
+              <div class="input-group col-xs-8">
+             
+                    <input type="email" class="form-control " name="emailid" id="emailid" placeholder="Use only bullhorn mailId Ex:abc@bullhorn.com"/>
+
+              </div>
+               <span id="emailError" style="color:red"></span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-3">Contact No. <span class="text-danger">*</span></label>
+          <div class="col-md-5 col-sm-8">
+          	<div class="input-group">
+             
+            <input type="text" class="form-control" name="contactnum" id="contactnum" placeholder="XXXXXXXXXX" />
+            </div>
+             <span id="phnError" style="color:red"></span>
+          </div>
+        </div>
+        
+        
+        <div class="form-group">
+          <div class="col-xs-offset-3 col-md-8 col-sm-9"><span class="text-muted"><input type="checkbox" name="agree" id="agree" required/>
+            You agree to our <a href="#">Terms</a> and that you have read our <a href="#">Policy</a>, including our <a href="#">Cookie Use</a>.</span> </div>
+        </div>
+             <div id="checkBoxError" style="color:red;text-align:center"></div>
+
+        <div class="form-group">
+          <div class="col-xs-offset-3 col-xs-10">
+            <input id="submit" type="button" value="Sign Up" class="btn btn-primary">
+          </div>
+        </div>
+      </form>
+    </div>
+</div>
+</div>
+</section></div></div></div></div>
+</body>
+</html>
