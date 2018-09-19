@@ -11,10 +11,11 @@
     "express":"^4.16.3",
     "express-session":"^1.15.6"
   },
+  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+    
   },
-  "author": "",
+  "author": "harikiran",
   "license": "MIT"
 }
